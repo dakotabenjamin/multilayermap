@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Leaflet</title>
+
+<!-- add leaflet js -->
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<!-- mapbox -->
+<script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.css' rel='stylesheet' />
+
+<link rel="stylesheet" href="main.css" />
+
+<body>
+<div id='map'></div>
+<!-- setup a leaflet instance -->
+<script>
+// create a map in the "map" div, set the view to a given place and zoom
+var map = L.map('map', {
+    center: [41.5, -81.6],
+    zoom: 13,
+});
+
+//Layer 1
+var l1 = L.mapbox.tileLayer('dakotabenjamin.j16385hd', {
+    attribution: '<a href="http://leafletjs.com">Leaflet</a> | Imagery &copy; <a href="http://mapbox.com/">Mapbox</a>, Map data &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+    zIndex: 1,
+});
+
+var l2 = L.mapbox.tileLayer('dakotabenjamin.ik1m7g30', {
+    attribution: '<a href="http://leafletjs.com">Leaflet</a> | Imagery &copy; <a href="http://mapbox.com/">Mapbox</a>, Map data &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+    zIndex: 2,
+});
+
+var layers = L.layerGroup([l1, l2]).addTo(map);
+
+
+map.on('zoomend', function(e) {
+  if(l1.options.zIndex < l2.options.zIndex) 
+    l1.bringToFront();
+  else l2.bringToFront();
+});
+
+// add an OpenStreetMap tile layer
+//L.mapbox.tileLayer('dakotabenjamin.j16385hd', {
+//    attribution: '<a href="http://leafletjs.com">Leaflet</a>|Imagery &copy; <a href="http://mapbox.com/">Mapbox</a>, Map data &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+//}).addTo(map);
+
+// add a marker in the given location, attach some popup content to it and open the popup
+//L.marker([-81,41]).addTo(map)
+//    .bindPopup('A pretty CSS3 popup. <br> Easily customizable.')
+//    .openPopup();
+</script>
+<!-- set four zoom levels and assign a different map to each -->
+</body>
